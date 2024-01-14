@@ -8,5 +8,3 @@ DONE
 
 Game restart handling
 DONE
-
-
