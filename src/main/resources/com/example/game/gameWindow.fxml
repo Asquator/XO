@@ -7,27 +7,27 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainVbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.game.GameWindowController">
+<VBox fx:id="mainVbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.game.GameWindowController">
    <children>
       <HBox prefHeight="25.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="20.0" prefWidth="403.0" text="My name:">
+            <Label prefHeight="20.0" prefWidth="252.0" text="My name:">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="mynameLLabel">
+            <Label fx:id="mynameLLabel" prefHeight="20.0" prefWidth="378.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="20.0" prefWidth="479.0" text="Opponent name:">
+            <Label prefHeight="20.0" prefWidth="294.0" text="Opponent name:">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="opponentNameLabel">
+            <Label fx:id="opponentNameLabel" prefHeight="20.0" prefWidth="344.0">
                <font>
                   <Font size="16.0" />
                </font>

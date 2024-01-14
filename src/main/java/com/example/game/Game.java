@@ -47,4 +47,30 @@ public class Game {
     public GameDetails getGameDetails() {
         return gd;
     }
+
+    public boolean checkWin(int x, int y){
+        return checkWinRow(x, gd.mark()) || checkWinCol(y, gd.mark());
+    }
+
+    public boolean checkOpponentWin(int x, int y){
+        return checkWinRow(x, gd.opponentMark()) || checkWinCol(y, gd.opponentMark());
+    }
+
+    private boolean checkWinRow(int row, byte mark){
+        for (int col = 0; col < gd.size(); col++){
+            if(grid[row][col] != mark)
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkWinCol(int col, byte mark){
+        for (int row = 0; row < gd.size(); row++){
+            if(grid[row][col] != mark)
+                return false;
+        }
+
+        return true;
+    }
 }

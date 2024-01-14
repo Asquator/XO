@@ -40,9 +40,6 @@ public class Client implements Runnable{
         moveLock.unlock();
     }
 
-    public Condition getMoveSendCondition() {
-        return moveSendCondition;
-    }
 
     //initialize connection to the host
     public Client(int size, String name, GameWindowController controller) {
@@ -112,6 +109,9 @@ public class Client implements Runnable{
         System.out.println("client: waiting for opponent");
         Move move = (Move) is.readObject();
         updateGUI(move);
+        if(move.terminate())
+            terminateGame(move);
+
         waitForMove();
     }
 
@@ -144,11 +144,14 @@ public class Client implements Runnable{
         Platform.runLater(()->controller.handleOpponentMove(move));
     }
 
+    private void terminateGame(Move terminateMove) throws IOException {
+        Platform.runLater(()->controller.handleTermination(terminateMove));
+        closeConnection();
+    }
+
     public void closeConnection() throws IOException {
         is.close();
         os.close();
         socket.close();
     }
-
-
 }

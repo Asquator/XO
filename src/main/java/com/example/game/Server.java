@@ -91,28 +91,36 @@ public class Server {
                 System.out.println("session: running");
                 initSession();
 
-                boolean finished = false;
                 Response acc = new Response(Response.Type.ACCEPTED_MOVE);
                 Response decl = new Response(Response.Type.ILLEGAL_MOVE);
 
-                while(!finished){
-                    Move move;
-                    System.out.println("session: waiting for move");
-                    move = (Move) is1.readObject();
-                    checkMove(move);
-                    os1.writeObject(acc);
-                    game.mark(move.x(), move.y());
-                    os2.writeObject(move);
-                    System.out.println("session: transferred move");
+                Move move;
 
-                    System.out.println("session: waiting for move");
+                while(true){
+                    //  ping pong moves back and forth until win
+                    move = (Move) is1.readObject();
+
+                    if(checkMove(move))
+                        os1.writeObject(acc);
+
+                    game.mark(move.x(), move.y());
+                    if(game.checkWin(move.x(), move.y()))
+                        terminateGame(move, os1, os2);
+
+                    os2.writeObject(move);
+
                     move = (Move) is2.readObject();
-                    checkMove(move);
-                    os2.writeObject(acc);
-                    System.out.println("session: got move");
+
+                    if(checkMove(move))
+                        os2.writeObject(acc);
+
                     game.opponentMark(move.x(), move.y());
+
+                    if(game.checkOpponentWin(move.x(), move.y())){
+                        terminateGame(move, os2, os1);
+                    }
+
                     os1.writeObject(move);
-                    System.out.println("session: transferred move");
                 }
 
             } catch (IOException e) {
@@ -121,6 +129,7 @@ public class Server {
                 throw new RuntimeException(e);
             }
         }
+
 
         private void initSession() throws IOException {
             System.out.println("session: initiating with" + req1.getConnection() + " " + req2.getConnection());
@@ -146,8 +155,22 @@ public class Server {
             System.out.println("session: responded");
         }
 
-        private void checkMove(Move move){
+        private boolean checkMove(Move move){
+            //TO DO
+            return true;
+        }
 
+        private void terminateGame(Move move, ObjectOutputStream osWin, ObjectOutputStream osLose) throws IOException {
+            osWin.writeObject(new Move(move.x(), move.y(), true, true));
+            osLose.writeObject(new Move(move.x(), move.y(), true, false));
+        }
+
+        private void close() throws IOException {
+            os1.close();
+            os2.close();
+            is1.close();
+            is2.close();
+            Thread.currentThread().interrupt();
         }
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import javax.security.auth.login.LoginException;
@@ -169,5 +170,19 @@ public class GameWindowController {
         mainVbox.getChildren().add(waitingLabel);
         client = new Client(size, name, this);
         new Thread(client).start();
+    }
+
+    public void handleTermination(Move terminateMove) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        if(terminateMove.win())
+            alert.setContentText("You won");
+
+        else
+            alert.setContentText("You lost");
+
+        Object res = alert.showAndWait();
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.close();
     }
 }
